@@ -1,86 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-    <title>CALCOLO MONTANTE E Interesse</title>
-    <style>
-        body
-        {
-            background-color: rgb(14, 125, 221);
-        }
-    </style>
-</head>
-<body>
-    <form onsubmit="event.preventDefault();" class="w3-container w3-deep-purple">
-        <div class="w3-container w3-indigo">
-            <label>capitale</label>
-            <input class="w3-input" type="number" id="capitale">
-        </div>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Griglia Tris Personalizzata</title>
+        <style>
+            body {
+                background-color: rgb(14, 125, 221);
+                display: flex;
+                justify-content: center;
+                margin-top: 50px;
+            }
 
-        <div class="w3-container w3-indigo">
-            <label>tasso interesse</label>
-            <input class="w3-input" type="number" id="tassoInteresse">
-        </div>
-        
 
-        <div class="w3-container w3-indigo">
-            <label>tempo (in anni)</label>
-            <input class="w3-input" type="number" id="tempo">
-        </div>
-        
-        <button type="button" onclick="calcolaMontanteInteresse()"> calcola il montante e gli interessi</button>
-    </form>
-    <p id="risultato"></p>
+            img 
+            {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <!-- prima colonna-->
+            <img src="bianco.png" id ="imamgine11" onclick="cambiaImmagine(this)">
+            <img src="bianco.png" id ="imamgine21" onclick="cambiaImmagine(this)">
+            <img src="bianco.png" id ="imamgine31" onclick="cambiaImmagine(this)"> <br>
 
-    <script>
-        function calcolaMontanteInteresse()
-        { 
-            let capitale = parseFloat(document.getElementById('capitale').value); //ritorna allemento con conversione in numeri
-            let tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
-            let tempo = parseFloat(document.getElementById('tempo').value);
+            <!-- seconda colonna-->
+            <img src="bianco.png" id ="imamgine12" onclick="cambiaImmagine(this)">
+            <img src="bianco.png" id ="imamgine22" onclick="cambiaImmagine(this)">
+            <img src="bianco.png" id ="imamgine32" onclick="cambiaImmagine(this)"> <br>
 
-            let unoPerCentoTasso = tassoInteresse / 100; //calcola 1% del tasso
-            let montante = capitale * Math.pow((1 + unoPerCentoTasso), tempo); //calcola montante utilizzando la formula montante = capitaleIniziale(1+tassoInteresseAnnuo)^tempoAnni
-            let montanteDecimale = Math.round(montante*100)/100; //arrotonda montante a due decimali
-            let interesse = (montante - capitale).toFixed(2);; //clacola quanto hai guadagnato o speso ripestto al capitale inziale e toFixed() mi da numero in decimale con quanti numeri voglio dopo la virgola
+            <!-- terza colonna-->
+            <img src="bianco.png" id ="imamgine13" onclick="cambiaImmagine(this)">
+            <img src="bianco.png" id ="imamgine23" onclick="cambiaImmagine(this)">
+            <img src="bianco.png" id ="imamgine33" onclick="cambiaImmagine(this)"> <br>
             
-            let risultato = "<h3> montante interesse fine </h3><br> montante: " + montanteDecimale + "<br> intresse: " + interesse + "<br>";
-            //document.getElementById("risultato").innerHTML = "<br> montante: " + montanteDecimale + "<br> intresse: " + interesse;
-            risultato += calcolaMontanteAnnoPerAnno(capitale, tassoInteresse, tempo);
-            document.getElementById("risultato").innerHTML = risultato;
-        }
+            <p id="giocatore"> sta giocando il giocatore a </p>
+        </div>
 
-
-        function calcolaMontanteAnnoPerAnno(capitale, tassoInteresse, tempo) 
-        {
-            //let capitale = parseFloat(document.getElementById('capitale').value);
-            //let tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
-            //let tempo = parseInt(document.getElementById('tempo').value);
-
-            if (isNaN(capitale) || isNaN(tassoInteresse) || isNaN(tempo)) //controllo se variabili hanno qualcosa 
+        <script>
+            let giocatoreAttuale = false; //true = primo giocatore
+            let clicchiImmagine = 
             {
-                alert("Inserisci tutti i valori correttamente.");
-                return;
+                "immagine11" : 0,
+                "immagine21" : 0,
+                "immagine31" : 0,
+            
+                "immagine12" : 0,
+                "immagine22" : 0,
+                "immagine32" : 0,
+
+                "immagine13" : 0,
+                "immagine23" : 0,
+                "immagine33" : 0,
+
+            }; //quante volte utente ha cliaccto quella imamgine 
+            function cambiaImmagine(immagineElemento) 
+            {
+                let idImmagine = immagineElemento.id;
+                if(clicchiImmagine[idImmagine] === 0)
+                {
+                    if(giocatoreAttuale == true) 
+                    { 
+                        immagineElemento.src ="rosso.png";
+                        giocatoreAttuale=false; 
+                        document.getElementById("giocatore").innerText = "Sta giocando il giocatore B";
+                    }
+                    else 
+                    { 
+                        immagineElemento.src ="blu.png"; 
+                        giocatoreAttuale = true; 
+                        document.getElementById("giocatore").innerText = "Sta giocando il giocatore A";
+                    }
+                    clicchiImmagine[idImmagine]++;
+                }
             }
 
-            let unoPerCentoTasso = tassoInteresse / 100;
-            let risultato = "<h3>Montante e interesse anno per anno:</h3>";
-
-            for (let anno = 1; anno <= tempo; anno++) 
-            {
-                let montante = capitale * Math.pow((1 + unoPerCentoTasso), anno); //montante per quel anno
-                let interesse = montante - capitale; //interesse per quel anno
-
-                risultato += `Anno ${anno}: Montante = €${montante.toFixed(2)}, Interesse = €${interesse.toFixed(2)}<br>`;
-            }
-
-            return risultato;
-        }
-
-
-    </script>
-</body>
+        </script>
+    </body>
 </html>
