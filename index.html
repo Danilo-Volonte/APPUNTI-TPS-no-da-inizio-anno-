@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <title>CALCOLO MONTANTE E Interesse</title>
+    <style>
+        body
+        {
+            background-color: rgb(14, 125, 221);
+        }
+    </style>
+</head>
+<body>
+    <form onsubmit="event.preventDefault();" class="w3-container w3-deep-purple">
+        <div class="w3-container w3-indigo">
+            <label>capitale</label>
+            <input class="w3-input" type="number" id="capitale">
+        </div>
+
+        <div class="w3-container w3-indigo">
+            <label>tasso interesse</label>
+            <input class="w3-input" type="number" id="tassoInteresse">
+        </div>
+        
+
+        <div class="w3-container w3-indigo">
+            <label>tempo (in anni)</label>
+            <input class="w3-input" type="number" id="tempo">
+        </div>
+        
+        <button type="button" onclick="calcolaMontanteInteresse()"> calcola il montante e gli interessi</button>
+    </form>
+    <p id="risultato"></p>
+
+    <script>
+        function calcolaMontanteInteresse()
+        { 
+            let capitale = parseFloat(document.getElementById('capitale').value); //ritorna allemento con conversione in numeri
+            let tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
+            let tempo = parseFloat(document.getElementById('tempo').value);
+
+            let unoPerCentoTasso = tassoInteresse / 100; //calcola 1% del tasso
+            let montante = capitale * Math.pow((1 + unoPerCentoTasso), tempo); //calcola montante utilizzando la formula montante = capitaleIniziale(1+tassoInteresseAnnuo)^tempoAnni
+            let montanteDecimale = Math.round(montante*100)/100; //arrotonda montante a due decimali
+            let interesse = (montante - capitale).toFixed(2);; //clacola quanto hai guadagnato o speso ripestto al capitale inziale e toFixed() mi da numero in decimale con quanti numeri voglio dopo la virgola
+            
+            let risultato = "<h3> montante interesse fine </h3><br> montante: " + montanteDecimale + "<br> intresse: " + interesse + "<br>";
+            //document.getElementById("risultato").innerHTML = "<br> montante: " + montanteDecimale + "<br> intresse: " + interesse;
+            risultato += calcolaMontanteAnnoPerAnno(capitale, tassoInteresse, tempo);
+            document.getElementById("risultato").innerHTML = risultato;
+        }
+
+
+        function calcolaMontanteAnnoPerAnno(capitale, tassoInteresse, tempo) 
+        {
+            //let capitale = parseFloat(document.getElementById('capitale').value);
+            //let tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
+            //let tempo = parseInt(document.getElementById('tempo').value);
+
+            if (isNaN(capitale) || isNaN(tassoInteresse) || isNaN(tempo)) //controllo se variabili hanno qualcosa 
+            {
+                alert("Inserisci tutti i valori correttamente.");
+                return;
+            }
+
+            let unoPerCentoTasso = tassoInteresse / 100;
+            let risultato = "<h3>Montante e interesse anno per anno:</h3>";
+
+            for (let anno = 1; anno <= tempo; anno++) 
+            {
+                let montante = capitale * Math.pow((1 + unoPerCentoTasso), anno); //montante per quel anno
+                let interesse = montante - capitale; //interesse per quel anno
+
+                risultato += `Anno ${anno}: Montante = €${montante.toFixed(2)}, Interesse = €${interesse.toFixed(2)}<br>`;
+            }
+
+            return risultato;
+        }
+
+
+    </script>
+</body>
+</html>
