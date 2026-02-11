@@ -6,20 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
-        $numeroDomande = $_POST["numeroDomande"];
-        $numeroRisposte = $_POST["numeroRisposte"];
-        for( $i = 0; $i  == $numeroDomande, $i++)
-    
-    
-    ?>
     <div> <!-- divisore per tutte le domande -->
             <h1> TITTOLO </h1>
 
             <div> <!-- divisore per tutte le domande -->
                 <h2> TESTO DELLA DOMANDA </h2>
                 <input type = "checkbox" name = "risposta" value="valore risposta"> </input> <!-- saranno multiple -->
-            <div>
+            </div>
     </div>
 </body>
 </html>
